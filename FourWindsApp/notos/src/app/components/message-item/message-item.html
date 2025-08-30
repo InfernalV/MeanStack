@@ -1,0 +1,21 @@
+<!-- Display the message (Read) -->
+@if (message()) {
+  <div>
+    <h3>{{ message().title | uppercase }}</h3>
+    <p>{{ message().text }}</p>
+    @if (message().img) {
+      <img [src]="message().img" alt="Message image" style="max-width: 200px; max-height: 200px;" />
+    }
+    <!-- Update Message -->
+    <form (ngSubmit)="updateMessage(updateTitle.value, updateText.value, updateImg.value || undefined)">
+      <input type="text" #updateTitle [value]="message().title" name="updateTitle" placeholder="Update title" required />
+      <input type="text" #updateText [value]="message().text" name="updateText" placeholder="Update text" required />
+      <input type="text" #updateImg [value]="message().img" name="updateImg" placeholder="Update image URL" />
+      <button type="submit">Update</button>
+    </form>
+
+    <!-- Delete Message -->
+    <button (click)="deleteMessage()">Delete</button>
+  </div>
+}
+

@@ -1,0 +1,33 @@
+<h3>Messages List</h3>
+<!-- Create Message -->
+<form #createForm="ngForm" (ngSubmit)="onCreate(createTitle.value, createText.value, createImg.value); createForm.resetForm();">
+  <input type="text" #createTitle placeholder="New title" required />
+  <input type="text" #createText placeholder="New text" required />
+  <input type="text" #createImg placeholder="Image URL (optional)" />
+  <button type="submit">Create</button>
+</form>
+
+@if (!messages().length) {
+  <p>Loading...</p>
+}
+
+<form>
+  <label>Filter Messages</label>
+  <input
+    name="searchTerm"
+    [ngModel]="searchTerm()"
+    (ngModelChange)="searchTerm.set($event)"
+    placeholder="Search messages..."
+  />
+</form>
+
+<ul class="messages">
+  @for (message of messages() | filterMessages : searchTerm(); track message.id) {
+    <app-message-item 
+      (MessageToggled)="updateMessageItem($event)"
+      (MessageUpdated)="onMessageUpdated($event)"
+      (MessageDeleted)="onMessageDeleted($event)"
+      [message]="message"
+    ></app-message-item>
+  }
+</ul>
